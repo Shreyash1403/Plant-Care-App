@@ -606,7 +606,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:plant_care_app/view/widgets/custom_card.dart';
+import 'package:plant_care_app/widgets/custom_card.dart';
 import 'package:plant_care_app/view_model/task_view_model.dart';
 import 'package:plant_care_app/view_model/weather_view_model.dart';
 import 'package:provider/provider.dart';
@@ -869,7 +869,7 @@ class HomeScreenContent extends StatelessWidget {
                                                         fontSize: 16),
                                                   ),
                                                   const SizedBox(
-                                                    width: 250,
+                                                    width: 200,
                                                   ),
                                                   const Icon(Icons.info_outline,
                                                       color: Colors.grey),

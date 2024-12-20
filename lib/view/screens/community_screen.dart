@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:plant_care_app/view/widgets/custom_card.dart';
+import 'package:plant_care_app/widgets/custom_card.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});

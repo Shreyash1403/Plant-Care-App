@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
-
 import '../model/weather_model.dart';
 
 class WeatherViewModel extends ChangeNotifier {
@@ -16,8 +15,7 @@ class WeatherViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final url =
-        'http://api.weatherstack.com/current?access_key=470bd2eee0e5514a0f8d9ff2f701554b&query=$city';
+    final url = 'http://api.weatherstack.com/current?access_key=&query=$city';
 
     try {
       final response = await http.get(Uri.parse(url));

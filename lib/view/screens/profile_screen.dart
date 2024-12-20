@@ -12,22 +12,22 @@ class ProfileScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
-          Card(
+          const Card(
             child: ListTile(
-              title: const Text('Shreyash'),
-              subtitle: const Text('shreyash@example.com'),
-              leading: const CircleAvatar(
+              title: Text('Shreyash'),
+              subtitle: Text('shreyash@example.com'),
+              leading: CircleAvatar(
                 child: Icon(Icons.person),
               ),
             ),
           ),
           const SizedBox(height: 16),
           ListTile(
-            title: Text('Notifications'),
+            title: const Text('Notifications'),
             trailing: Switch(value: true, onChanged: (bool value) {}),
           ),
           ListTile(
-            title: Text('Dark Mode'),
+            title: const Text('Dark Mode'),
             trailing: Switch(value: false, onChanged: (bool value) {}),
           ),
         ],
