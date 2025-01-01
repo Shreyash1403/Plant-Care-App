@@ -261,6 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
           topRight: Radius.circular(30.0),
         ),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           backgroundColor: const Color.fromARGB(255, 22, 53, 0),
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

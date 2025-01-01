@@ -7,6 +7,7 @@ import 'package:plant_care_app/view/screens/home_screen.dart';
 import 'package:plant_care_app/view/screens/plants_list_screen.dart';
 import 'package:plant_care_app/view/screens/splash_screen.dart';
 import 'package:plant_care_app/view_model/plant_view_model.dart';
+import 'package:plant_care_app/view_model/post_view_model.dart';
 import 'package:plant_care_app/view_model/task_view_model.dart';
 import 'package:plant_care_app/view_model/weather_view_model.dart';
 import 'package:provider/provider.dart';
@@ -29,13 +30,10 @@ class PlantApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => TaskViewModel()),
         ChangeNotifierProvider(create: (_) => WeatherViewModel()),
         ChangeNotifierProvider(create: (_) => PlantViewModel()),
+        ChangeNotifierProvider(create: (_) => PostViewModel()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'Poppins',
-        ),
         initialRoute: '/',
         routes: {
           '/': (context) => const SplashScreen(),

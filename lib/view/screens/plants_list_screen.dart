@@ -1,68 +1,73 @@
 // import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
-// import 'package:plant_care_app/view/widgets/custom_card.dart';
+// import 'package:plant_care_app/view_model/plant_view_model.dart';
+// import 'package:provider/provider.dart';
+// import 'package:plant_care_app/widgets/custom_card.dart';
 
-// class PlantListScreen extends StatefulWidget {
+// class PlantListScreen extends StatelessWidget {
 //   const PlantListScreen({super.key});
 
 //   @override
-//   // ignore: library_private_types_in_public_api
-//   _PlantListScreenState createState() => _PlantListScreenState();
-// }
-
-// class _PlantListScreenState extends State<PlantListScreen> {
-//   @override
 //   Widget build(BuildContext context) {
+//     final plantViewModel = Provider.of<PlantViewModel>(context);
+
 //     return Scaffold(
 //       backgroundColor: const Color.fromRGBO(251, 247, 248, 1),
 //       appBar: AppBar(
-//         automaticallyImplyLeading: false,
 //         title: Text(
 //           'Plants',
-//           style: GoogleFonts.poppins(fontSize: 22, fontWeight: FontWeight.bold),
+//           style: GoogleFonts.poppins(
+//               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 24),
 //         ),
-//         centerTitle: false,
 //       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: GridView.builder(
-//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//             crossAxisCount: 2,
-//             crossAxisSpacing: 16.0,
-//             mainAxisSpacing: 16.0,
-//           ),
-//           itemCount: 6,
-//           itemBuilder: (context, index) {
-//             return CustomCard(
-//               child: InkWell(
-//                 onTap: () {
-//                   Navigator.pushNamed(context, '/plant-details');
-//                 },
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     Image.asset(
-//                       'asset/plant_image.png',
-//                       height: 80,
-//                     ),
-//                     const SizedBox(height: 8),
-//                     Text(
-//                       'Plant Name',
-//                       style: GoogleFonts.poppins(
-//                           fontSize: 16, fontWeight: FontWeight.bold),
-//                     ),
-//                     Text(
-//                       'Plant Type',
-//                       style: GoogleFonts.poppins(
-//                           fontSize: 14,
-//                           fontWeight: FontWeight.bold,
-//                           color: Colors.grey),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             );
-//           },
+//       body: SafeArea(
+//         child: Padding(
+//           padding: const EdgeInsets.all(16.0),
+//           child: plantViewModel.plants.isNotEmpty
+//               ? GridView.builder(
+//                   itemCount: plantViewModel.plants.length,
+//                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                     crossAxisCount: 2,
+//                     crossAxisSpacing: 16.0,
+//                     mainAxisSpacing: 16.0,
+//                   ),
+//                   itemBuilder: (context, index) {
+//                     final plant = plantViewModel.plants[index];
+//                     return CustomCard(
+//                       child: InkWell(
+//                         onTap: () {
+//                           Navigator.pushNamed(context, '/plant-details',
+//                               arguments: plant);
+//                         },
+//                         child: Column(
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Image.asset(
+//                               plant.imagePath,
+//                               height: 80,
+//                             ),
+//                             const SizedBox(height: 8),
+//                             Text(
+//                               plant.name,
+//                               style: GoogleFonts.poppins(
+//                                 color: Colors.black,
+//                                 fontWeight: FontWeight.bold,
+//                               ),
+//                             ),
+//                             Text(
+//                               plant.type,
+//                               style: GoogleFonts.poppins(
+//                                 color: Colors.grey,
+//                                 fontWeight: FontWeight.bold,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     );
+//                   },
+//                 )
+//               : const Center(child: Text('No plants available')),
 //         ),
 //       ),
 //       floatingActionButton: FloatingActionButton(
@@ -82,16 +87,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plant_care_app/view_model/plant_view_model.dart';
-import 'package:provider/provider.dart';
 import 'package:plant_care_app/widgets/custom_card.dart';
+import 'package:provider/provider.dart';
 
-class PlantListScreen extends StatelessWidget {
-  const PlantListScreen({super.key});
+class PlantListScreen extends StatefulWidget {
+  const PlantListScreen({Key? key}) : super(key: key);
+
+  @override
+  State<PlantListScreen> createState() => _PlantListScreenState();
+}
+
+class _PlantListScreenState extends State<PlantListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<PlantViewModel>(context, listen: false).fetchPlants();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final plantViewModel = Provider.of<PlantViewModel>(context);
-
     return Scaffold(
       backgroundColor: const Color.fromRGBO(251, 247, 248, 1),
       appBar: AppBar(
@@ -102,53 +118,72 @@ class PlantListScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: plantViewModel.plants.isNotEmpty
-              ? GridView.builder(
-                  itemCount: plantViewModel.plants.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16.0,
-                    mainAxisSpacing: 16.0,
-                  ),
-                  itemBuilder: (context, index) {
-                    final plant = plantViewModel.plants[index];
-                    return CustomCard(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/plant-details',
-                              arguments: plant);
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              plant.imagePath,
-                              height: 80,
+        child: Consumer<PlantViewModel>(
+          builder: (context, plantViewModel, child) {
+            if (plantViewModel.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (plantViewModel.plants.isEmpty) {
+              return const Center(child: Text('No plants available.'));
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                itemCount: plantViewModel.plants.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                ),
+                itemBuilder: (context, index) {
+                  final plant = plantViewModel.plants[index];
+                  return CustomCard(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/plant-details',
+                            arguments: plant);
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            plant.imageUrl,
+                            height: 80,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.error);
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            plant.name,
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              plant.name,
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          ),
+                          Text(
+                            plant.type,
+                            style: GoogleFonts.poppins(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              plant.type,
-                              style: GoogleFonts.poppins(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                )
-              : const Center(child: Text('No plants available')),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
